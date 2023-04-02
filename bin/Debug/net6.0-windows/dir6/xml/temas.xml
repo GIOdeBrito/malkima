@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- Aqui se encontram os temas do Malkima -->
+<G_Tema>
+	<Tema>
+		<nome>Atômico</nome>
+		<icone>1</icone>
+		<borda>1</borda>
+		<texto>1</texto>
+		<particula>0</particula>
+	</Tema>
+	<Tema>
+		<nome>Babilônia</nome>
+		<icone>0</icone>
+		<borda>3</borda>
+		<texto>2</texto>
+		<particula>2</particula>
+	</Tema>
+</G_Tema>
