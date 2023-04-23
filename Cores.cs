@@ -10,13 +10,18 @@ namespace Malkima
 	internal class Cores
 	{
 		private const string pasta = "dir6/xml";
-		
 		private static Color[] cores;
 		private static Tema tema;
 
+		static Cores ()
+		{
+			//LerCores();
+			//LerTemas();
+		}
+
 		public static void LerCores ()
 		{ 
-			XMLCor dados = (XMLCor) DadosXML.LerXML($"{pasta}/cores.xml", typeof(XMLCor));
+			XMLCor dados = (XMLCor) DadosXML.LerXML($"{pasta}/cores.xml",typeof(XMLCor));
 
 			List<Color> lcores = new List<Color>();
 
@@ -32,7 +37,6 @@ namespace Malkima
 		public static void LerTemas (int atual = 1)
 		{ 
 			XMLTema dados = (XMLTema) DadosXML.LerXML($"{pasta}/temas.xml",typeof(XMLTema)); 
-
 			tema = dados.itens[atual];
 		}
 

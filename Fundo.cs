@@ -15,7 +15,7 @@ namespace Malkima
 			Form f = Form1.UsarForma();
 			Tuple<int,int> tela = Utis.TelaXY();
 
-			Color cor_particula = Cores.UsarCor(Cores.UsarTema().particula);
+			Color cor_particula = Color.White;
 			Image img = Utis.ImagemComCor(@"dir6/graficos/goticula.png",cor_particula);
 			
 			List<PictureBox> lista = new List<PictureBox>();

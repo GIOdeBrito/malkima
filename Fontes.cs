@@ -11,6 +11,11 @@ namespace Malkima
 	{
 		private static PrivateFontCollection fontes = new PrivateFontCollection();
 
+		static Fontes ()
+		{
+			CarregarFontes();
+		}
+
 		public static Font AplicarFontes (int tam = 11)
 		{
 			return new Font(fontes.Families[0], tam);

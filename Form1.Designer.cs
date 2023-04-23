@@ -34,12 +34,12 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(800, 450);
-			StartPosition = FormStartPosition.CenterScreen;
-			WindowState = FormWindowState.Maximized;
+			ClientSize = new Size(1200, 700);
 			FormBorderStyle = FormBorderStyle.None;
 			Name = "Form1";
+			StartPosition = FormStartPosition.CenterScreen;
 			Text = "Malkima";
+			//WindowState = FormWindowState.Maximized;
 			Load += Form1_Load;
 			ResumeLayout(false);
 		}
