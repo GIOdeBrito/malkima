@@ -21,6 +21,11 @@ namespace Malkima
 			"Programas",
 			"Outros",
 		};
+
+		static Inicio ()
+		{
+			CarregarJogos();
+		}
 		
 		public static void Inicializar ()
 		{
@@ -48,7 +53,7 @@ namespace Malkima
 				Size = new Size(posx - (posx / 5), posy),
 				Location = new Point(posx / 5, 60),
 				BackColor = Color.FromArgb(200,30,30,30),
-				Enabled = false,
+				Enabled = true,
 			};
 
 			_painel.AutoScroll = true;
@@ -77,7 +82,6 @@ namespace Malkima
 			int x = xy.Item1;
 			int y = xy.Item2;
 
-			//Color cor_texto = Cores.UsarCor(Cores.UsarTema().texto);
 			Color cor_icone = Color.White;
 			
 			var itens = new List<dynamic>()
@@ -115,13 +119,6 @@ namespace Malkima
 			}
 
 			DefinirControles(itens.ToArray());
-
-			DadosXML.GravarXML(@"dir6/test.xml",new JogoItem()
-			{
-				nome = "gio",
-				id = "bruno",
-			});
-
 			itens.Clear();
 		}
 
@@ -129,7 +126,7 @@ namespace Malkima
 		{
 			List<Button> b = new List<Button>();
 
-			foreach(var tipo in tipos)
+			for(int i = 0; i < tipos.Length; i++)
 			{
 				int posy = 60;
 
@@ -140,9 +137,8 @@ namespace Malkima
 				
 				b.Add(new Button()
 				{
-					Text = tipo,
-					Name = tipo.ToLower(),
-					//BackColor = Color.FromArgb(20,100,5),
+					Text = tipos[i],
+					Name = tipos[i].ToLower(),
 					Size = new Size(_categorias.Width - 20, 30),
 					Location = new Point(10,posy),
 					Cursor = Cursors.Hand,
@@ -151,17 +147,18 @@ namespace Malkima
 				});
 			}
 
-			b[0].Click += (s,e) =>
-			{
-				//_painel.Visible = !_painel.Visible;
-				Gerir.IniciarAplicacao("cmd.exe","ipconfig");
-			};
-
 			foreach(var botao in b)
-			{
+			{	
 				Utis.CriarBotaoRedondo(botao,1);
 				_categorias.Controls.Add(botao);
 				_categorias.Controls.SetChildIndex(botao, _categorias.Controls.Count - 1);
+
+				botao.Click += (s,e) =>
+				{
+					_painel.Visible = !_painel.Visible;
+					int index = Array.FindIndex(tipos, item => item == botao.Text);
+					Gerir.ListarItensPainel(index);
+				};
 			}
 		}
 
@@ -182,6 +179,24 @@ namespace Malkima
 			img[0].Click += (s,e) => { Janela.AdicionarJogo(); };
 
 			img[1].Click += (s,e) => { Fechar(); };
+		}
+
+		private static void CarregarJogos ()
+		{
+			XMLJogo d = (XMLJogo) DadosXML.LerXML(@"dir6/xml/jogos.xml",typeof(XMLJogo));
+
+			if(d == null)
+			{
+				return;
+			}
+
+			foreach(JogoItem item in d.itens)
+			{
+				Console.WriteLine(item.nome);
+			}
+
+			Gerir.DefinirLista(d);
+			d.itens.Clear();
 		}
 
 		public static void Minimizar ()

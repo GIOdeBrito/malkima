@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Numerics;
+using System.Data;
 
 namespace Malkima
 {
@@ -29,6 +30,17 @@ namespace Malkima
 			CriarJanelaBase(v: new Vector2(290,400),nome: "Adicionar jogo");
 
 			int x = janelaAtual.Width, y = janelaAtual.Height;
+			Func<string[],List<string>> criarTabela = (str) =>
+			{
+				List<string> l = new List<string>();
+
+				foreach(string s in str)
+				{
+					l.Add(s);
+				}
+
+				return l;
+			};
 
 			var elementos = new List<dynamic>()
 			{
@@ -52,6 +64,7 @@ namespace Malkima
 					BackColor = Color.Transparent,
 					FlatStyle = FlatStyle.Flat,
 					Cursor = Cursors.Hand,
+					BackgroundImage = ico.ToBitmap(),
 					BackgroundImageLayout = ImageLayout.Stretch,
 				},
 				new TextBox()
@@ -74,16 +87,20 @@ namespace Malkima
 					ForeColor = Color.White,
 					BackColor = Color.FromArgb(40,40,40),
 					Font = Fontes.AplicarFontes(),
-					TextAlign = HorizontalAlignment.Center,
+					TextAlign = HorizontalAlignment.Left,
 				},
-				new PictureBox()
+				new ComboBox()
 				{
-					Name = "icone",
-					Location = new Point(x/2 - 32,70),
-					Size = new Size(64,64),
-					BackgroundImage = ico.ToBitmap(),
-					BackgroundImageLayout = ImageLayout.Center,
-				}
+					Name = "categoria",
+					Size = new Size(x - 50,30),
+					Location = new Point(25, 90),
+					DataSource = criarTabela(Inicio.tipos),
+					FlatStyle = FlatStyle.Flat,
+					DropDownStyle = ComboBoxStyle.DropDownList,
+					ForeColor = Color.White,
+					BackColor = Color.FromArgb(40,40,40),
+					Font = Fontes.AplicarFontes(),
+				},
 			};
 
 			foreach(var elemento in elementos)
@@ -103,8 +120,16 @@ namespace Malkima
 
 				Directory.CreateDirectory(dir);
 
-				((Button)elementos[1]).BackgroundImage.Save($"{dir}/icone.png");
-				((PictureBox)elementos[4]).BackgroundImage.Save($"{dir}/capa.png");
+				((Button)elementos[1]).BackgroundImage.Save($"{dir}/capa.png");
+
+				Gerir.NovoItemJogo(new JogoItem()
+				{
+					id = id,
+					nome = arq_nome,
+					exec = c,
+					inic = "",
+					cate = ((ComboBox)elementos[4]).SelectedIndex.ToString(),
+				});
 
 				DestruirJanelaBase();
 			};
@@ -124,7 +149,6 @@ namespace Malkima
 					b.BackgroundImage.Dispose();
 				}
 
-				Console.WriteLine(capa);
 				b.BackgroundImage = Bitmap.FromFile(capa);
 			};
 

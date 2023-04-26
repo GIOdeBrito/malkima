@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<G_Jogo xmlns:GIO="Malkima">
+  <JogoItem>
+    <id>DOOM64_x64</id>
+    <nome>DOOM64_x64</nome>
+    <exec>F:\SteamLibrary\steamapps\common\Doom 64\DOOM64_x64.exe</exec>
+    <inic />
+    <cate />
+  </JogoItem>
+</G_Jogo>
