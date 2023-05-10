@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <G_Jogo xmlns:GIO="Malkima">
   <JogoItem>
-    <id>DOOM64_x64</id>
-    <nome>DOOM64_x64</nome>
-    <exec>F:\SteamLibrary\steamapps\common\Doom 64\DOOM64_x64.exe</exec>
-    <inic />
-    <cate>0</cate>
-  </JogoItem>
-  <JogoItem>
-    <id>FF9_Launcher</id>
-    <nome>FF9_Launcher</nome>
-    <exec>F:\SteamLibrary\steamapps\common\FINAL FANTASY IX\FF9_Launcher.exe</exec>
-    <inic />
-    <cate>0</cate>
-  </JogoItem>
-  <JogoItem>
-    <id>Necesse</id>
-    <nome>Necesse</nome>
-    <exec>F:\SteamLibrary\steamapps\common\Necesse\Necesse.exe</exec>
+    <id>Fallout4</id>
+    <nome>Fallout 4</nome>
+    <exec />
     <inic />
     <cate>0</cate>
   </JogoItem>

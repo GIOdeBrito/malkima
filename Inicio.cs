@@ -15,7 +15,8 @@ namespace Malkima
 	{	
 		private static Panel _categorias = null;
 		private static Panel _painel = null;
-		public static string[] tipos = {
+		public static string[] tipos =
+		{
 			"Steam",
 			"Emuladores",
 			"Programas",
@@ -31,11 +32,10 @@ namespace Malkima
 		{
 			Form f = Form1.UsarForma();
 			Tuple<int,int> xy = Utis.TelaXY();
-			int x = xy.Item1;
-			int y = xy.Item2;
+			int x = xy.Item1, y = xy.Item2;
 
 			f.BackColor = Color.FromArgb(37,37,37);
-			f.BackgroundImage = Image.FromFile(@"dir6/graficos/panorama.png");
+			f.BackgroundImage = Utis.GIOImagem(@"dir6/graficos/panorama.png");
 			f.BackgroundImageLayout = ImageLayout.Stretch;
 
 			int posx = x - (x * 1 / 100);
@@ -59,8 +59,8 @@ namespace Malkima
 			_painel.AutoScroll = true;
 			_painel.Visible = false;
 
-			Utis.CriarBotaoRedondo(_categorias,1);
-			Utis.CriarBotaoRedondo(_painel,10);
+			GUI.CriarBotaoRedondo(_categorias,1);
+			GUI.CriarBotaoRedondo(_painel,10);
 
 			f.Controls.Add(_categorias);
 			f.Controls.Add(_painel);
@@ -79,10 +79,7 @@ namespace Malkima
 		{
 			Form f = Form1.UsarForma();
 			Tuple<int,int> xy = Utis.TelaXY();
-			int x = xy.Item1;
-			int y = xy.Item2;
-
-			Color cor_icone = Color.White;
+			int x = xy.Item1, y = xy.Item2;
 			
 			var itens = new List<dynamic>()
 			{
@@ -93,7 +90,7 @@ namespace Malkima
 					Size = new Size(40,40),
 					BackColor = Color.Transparent,
 					BackgroundImageLayout = ImageLayout.Stretch,
-					BackgroundImage = Utis.ImagemComCor(@"dir6/graficos/controle.png", cor_icone),
+					BackgroundImage = Utis.ImagemComCor(@"dir6/graficos/controle.png", Color.Aqua),
 				},
 				new PictureBox()
 				{
@@ -102,7 +99,7 @@ namespace Malkima
 					Size = new Size(24,24),
 					BackColor = Color.Transparent,
 					BackgroundImageLayout = ImageLayout.Stretch,
-					BackgroundImage = Utis.ImagemComCor(@"dir6/graficos/sair.png", cor_icone),
+					BackgroundImage = Utis.GIOImagem(@"dir6/graficos/sair.png"),
 					Cursor = Cursors.Hand,
 				},
 			};
@@ -124,18 +121,18 @@ namespace Malkima
 
 		private static void CriarCategorias ()
 		{
-			List<Button> b = new List<Button>();
+			List<Button> botoes = new List<Button>();
 
 			for(int i = 0; i < tipos.Length; i++)
 			{
 				int posy = 60;
 
-				if(b.Count > 0)
+				if(botoes.Count > 0)
 				{
-					posy = b[b.Count - 1].Location.Y + 35;
+					posy = botoes[botoes.Count - 1].Location.Y + 35;
 				}
 				
-				b.Add(new Button()
+				botoes.Add(new Button()
 				{
 					Text = tipos[i],
 					Name = tipos[i].ToLower(),
@@ -147,17 +144,21 @@ namespace Malkima
 				});
 			}
 
-			foreach(var botao in b)
+			foreach(var botao in botoes)
 			{	
-				Utis.CriarBotaoRedondo(botao,1);
+				GUI.CriarBotaoRedondo(botao,1);
 				_categorias.Controls.Add(botao);
 				_categorias.Controls.SetChildIndex(botao, _categorias.Controls.Count - 1);
 
 				botao.Click += (s,e) =>
 				{
-					_painel.Visible = !_painel.Visible;
+					if(!_painel.Visible)
+					{
+						_painel.Visible = true;
+					}
+					
 					int index = Array.FindIndex(tipos, item => item == botao.Text);
-					Gerir.ListarItensPainel(index);
+					GUI.ListarItensPainel(index);
 				};
 			}
 		}
@@ -177,7 +178,6 @@ namespace Malkima
 			img[0].MouseEnter += (s,e) => { mudarFundo(img[0],Color.Gray); };
 			img[0].MouseLeave += (s,e) => { mudarFundo(img[0],Color.Transparent); };
 			img[0].Click += (s,e) => { Janela.AdicionarJogo(); };
-
 			img[1].Click += (s,e) => { Fechar(); };
 		}
 

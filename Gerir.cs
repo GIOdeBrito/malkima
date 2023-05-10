@@ -11,28 +11,28 @@ namespace Malkima
 {
 	internal class Gerir
 	{
-		private static JogoItem[] _jogos;
-		private static Button[] _listados;
+		private static JogoItem[] _jogos = null;
 		private static int _categoria_atual = -1;
 
 		public static void NovoItemJogo (JogoItem item)
 		{
-			List<JogoItem> l;
+			List<JogoItem> lista = new List<JogoItem>();
 
-			try
+			if(!(_jogos is null))
 			{
-				l = _jogos.ToList();
-			}
-			catch
-			{
-				l = new List<JogoItem>();
+				lista = _jogos.ToList();
 			}
 			
-			l.Add(item);
-			_jogos = l.ToArray();
+			lista.Add(item);
+			_jogos = lista.ToArray();
+			lista.Clear();
 
-			l.Clear();
+			GravarXMLJogos();
+			GUI.AtualizarPainel();
+		}
 
+		public static void GravarXMLJogos ()
+		{
 			DadosXML.GravarXML(@"dir6/xml/jogos.xml", new XMLJogo()
 			{
 				itens = _jogos.ToList(),
@@ -44,9 +44,26 @@ namespace Malkima
 			return _jogos;
 		}
 
+		public static int UsarCategoria ()
+		{
+			return _categoria_atual;
+		}
+
 		public static void DefinirLista (XMLJogo dados)
 		{
 			_jogos = dados.itens.ToArray();
+
+			GravarXMLJogos();
+		}
+
+		public static void DefinirCategoria (int num = -1)
+		{
+			if(num < 0)
+			{
+				return;
+			}
+
+			_categoria_atual = num;
 		}
 
 		public static void RemoverItemJogo (string id = "?id?")
@@ -58,79 +75,21 @@ namespace Malkima
 				return;
 			}
 
-			List<JogoItem> l = _jogos.ToList();
-			l.RemoveAt(index);
+			List<JogoItem> lista = _jogos.ToList();
+			lista.RemoveAt(index);
 
-			_jogos = l.ToArray();
-			l.Clear();
-		}
-		
-		public static void ListarItensPainel (int categoria = -1)
-		{
-			if(categoria == _categoria_atual)
-			{
-				return;
-			}
-			
-			Panel p = Inicio.UsarPainel();
-			List<Button> b = new List<Button>();
-			JogoItem[] jogos = Array.FindAll(_jogos, item => item.cate == categoria.ToString());
+			_jogos = lista.ToArray();
+			lista.Clear();
 
-			if(jogos.Length < 1)
-			{
-				return;
-			}
+			GravarXMLJogos();
 
-			int x = 20, y = 20;
-			Vector2 tamanho = new Vector2(100, 140);
-			int contador = 0;
-
-			for(int i = 0; i < jogos.Length; i++)
-			{
-				if(contador > 0)
-				{
-					x += 20 + (int)tamanho.X;
-				}
-				
-				if(contador > 6)
-				{
-					x = 20;
-					y += 20 + (int)tamanho.Y;
-				}
-				
-				b.Add(new Button()
-				{
-					Name = jogos[i].id,
-					BackgroundImage = Image.FromFile(@$"dir6/jogos/{jogos[i].id}/capa.png"),
-					BackgroundImageLayout = ImageLayout.Center,
-					ForeColor = Color.Black,
-					FlatStyle = FlatStyle.Flat,
-					Size = new Size((int)tamanho.X,(int)tamanho.Y),
-					Location = new Point(x,y),
-					Cursor = Cursors.Hand,
-					Enabled = true,
-				});
-
-				p.Controls.Add(b[i]);
-
-				contador++;
-
-				Button b_jogo = b[i];
-
-				b_jogo.Click += (s,e) =>
-				{
-					string nome = b_jogo.Name;
-					string exec = Array.Find(_jogos, item => item.id == nome).exec;
-
-				};
-			}
-
-			_categoria_atual = categoria;
+			GUI.AtualizarPainel();
 		}
 
 		public static void IniciarAplicacao (string exec, string param = null)
 		{
-			if(param != null)
+			//Console.WriteLine($"{exec} | {param}");
+			if(param != "" && !(param is null))
 			{
 				ProcessStartInfo startInfo = new ProcessStartInfo()
 				{
@@ -143,7 +102,7 @@ namespace Malkima
 				
 				return;
 			}
-			
+
 			Process.Start(exec);
 		}
 	}

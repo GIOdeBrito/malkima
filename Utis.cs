@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Malkima
 {
 	internal class Utis
-	{
+	{	
 		public static Tuple<int,int> TelaXY ()
 		{
 			int x = Form1.UsarForma().Width;
@@ -31,7 +31,7 @@ namespace Malkima
 				throw new FileNotFoundException($"Arquivo {c} não pôde ser encontrado");
 			}
 
-			var bmp = new Bitmap(c);
+			Bitmap bmp = new Bitmap(GIOImagem(c));
 
 			using(Graphics g = Graphics.FromImage(bmp))
 			{
@@ -46,35 +46,31 @@ namespace Malkima
 				Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
 				g.DrawImage(bmp, rect, 0, 0, rect.Width, rect.Height, GraphicsUnit.Pixel, attr);
 			}
+
+			Bitmap neoBmp = new Bitmap(bmp);
+			bmp.Dispose();
 			
-			return bmp;
+			return neoBmp;
 		}
 
-		public static void CriarBotaoRedondo (dynamic elemento, int radius = 10)
+		public static Bitmap GIOImagem (string c)
 		{
-			if(elemento is Button)
+			if(!File.Exists(c))
 			{
-				elemento.FlatStyle = FlatStyle.Flat;
-				elemento.FlatAppearance.BorderSize = 0;
-				elemento.ForeColor = Color.White;
-				//elemento.BackColor = Color.White;
-				//elemento.FlatAppearance.MouseDownBackColor = Color.Gray;
-				//elemento.FlatAppearance.MouseOverBackColor = Color.LightGray;
+				throw new FileNotFoundException($"Arquivo {c} não pôde ser encontrado");
 			}
-	
-			using(GraphicsPath path = new GraphicsPath())
+
+			Bitmap img = null;
+
+			using(FileStream stream = new FileStream(c, FileMode.Open))
 			{
-				path.AddArc(0, 0, radius * 2, radius * 2, 180, 90);
-				path.AddLine(radius, 0, elemento.Width - radius, 0);
-				path.AddArc(elemento.Width - radius * 2, 0, radius * 2, radius * 2, 270, 90);
-				path.AddLine(elemento.Width, radius, elemento.Width, elemento.Height - radius);
-				path.AddArc(elemento.Width - radius * 2, elemento.Height - radius * 2, radius * 2, radius * 2, 0, 90);
-				path.AddLine(elemento.Width - radius, elemento.Height, radius, elemento.Height);
-				path.AddArc(0, elemento.Height - radius * 2, radius * 2, radius * 2, 90, 90);
-				path.AddLine(0, elemento.Height - radius, 0, radius);
-	
-				elemento.Region = new Region(path);
+				Bitmap bmp = new Bitmap(stream);
+				img = (Bitmap) Image.FromStream(stream);
+
+				bmp.Dispose();
 			}
+			
+			return img;
 		}
 
 		public static string ColetarArquivo (int filtro_tipo = -1)
@@ -118,6 +114,26 @@ namespace Malkima
 			}
 
 			return c;
+		}
+
+		public static void CriarDiretorio (string dir)
+		{
+			if(Directory.Exists(dir))
+			{
+				return;
+			}
+
+			Directory.CreateDirectory(dir);
+		}
+
+		public static void RemoverArquivo (string dir)
+		{
+			if(!File.Exists(dir))
+			{
+				return;
+			}
+
+			File.Delete(dir);
 		}
 	}
 }
