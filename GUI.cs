@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,19 +13,26 @@ namespace Malkima
 	{
 		private static Button[] _listados = null;
 
-		public static void AtualizarPainel ()
+		public static void AtualizarPainel (bool forcabruta = false)
 		{
 			LimparPainelListados();
-			ListarItensPainel(Gerir.UsarCategoria());
+			ListarItensPainel(Gerir.UsarCategoria(), forcabruta);
 		}
 		
-		public static void ListarItensPainel (int categoria = -1)
+		public static void ListarItensPainel (int categoria = -1, bool forcabruta = false)
 		{
+			Panel painel = Inicio.UsarPainel();
+			
+			if(categoria == Gerir.UsarCategoria() && !forcabruta)
+			{
+				painel.Visible = !painel.Visible;
+				return;
+			}
+			
 			Gerir.DefinirCategoria(categoria);
 			LimparPainelListados();
 			
-			Panel p = Inicio.UsarPainel();
-			List<Button> b = new List<Button>();
+			List<Button> botoes = new List<Button>();
 			JogoItem[] itens = Gerir.UsarItemJogo();
 
 			if(itens is null)
@@ -32,7 +40,7 @@ namespace Malkima
 				return;
 			}
 
-			JogoItem[] jogos = Array.FindAll(itens, item => item.cate == categoria.ToString());
+			JogoItem[] jogos = Array.FindAll(itens, item => item.categoria == categoria.ToString());
 
 			if(jogos.Length < 1)
 			{
@@ -55,7 +63,7 @@ namespace Malkima
 					y += 20 + (int)tamanho.Y;
 				}
 				
-				b.Add(new Button()
+				botoes.Add(new Button()
 				{
 					Name = jogos[i].id,
 					BackgroundImage = Utis.GIOImagem(@$"dir6/jogos/{jogos[i].id}/capa.png"),
@@ -68,24 +76,69 @@ namespace Malkima
 					Enabled = true,
 				});
 
-				p.Controls.Add(b[i]);
+				painel.Controls.Add(botoes[i]);
 
 				contador++;
 
-				Button b_jogo = b[i];
+				Button b_jogo = botoes[i];
+				Panel b_editar = new Panel()
+				{
+					Name = "editar",
+					Location = new Point((int)tamanho.X-16,1),
+					Size = new Size(15,15),
+					//BackColor = Color.Transparent,
+					BackgroundImage = Utis.ImagemComCor(@"dir6/graficos/editar.png", Color.White),
+					BackgroundImageLayout = ImageLayout.Stretch,
+				};
+				Panel b_excluir = new Panel()
+				{
+					Name = "deletar",
+					Location = new Point((int)tamanho.X-16,20),
+					Size = new Size(15,15),
+					//BackColor = Color.Transparent,
+					BackgroundImage = Utis.ImagemComCor(@"dir6/graficos/deletar.png", Color.Red),
+					BackgroundImageLayout = ImageLayout.Stretch,
+				};
+
+				b_jogo.Controls.Add(b_editar);
+				b_jogo.Controls.Add(b_excluir);
+
+				string nome = b_jogo.Name;
+				string exec = jogos[i].exec;
+				string id = jogos[i].id;
+				string param = jogos[i].inic;
+				int index = Array.FindIndex(itens, item => item.id == id);
 
 				b_jogo.Click += (s,e) =>
 				{
-					string nome = b_jogo.Name;
-					string exec = Array.Find(itens, item => item.id == nome).id;
-					int index = Array.FindIndex(itens, item => item.id == exec);
-					//Janela.AdicionarJogo(itens[index]);
+					Console.WriteLine(param);
+					Console.WriteLine(exec);
 
-					Janela.VerJogo(index);
+					Gerir.IniciarAplicacao(exec, param);
+
+					/*if(((MouseEventArgs)e).Button == MouseButtons.Left)
+					{
+						Point local = ((MouseEventArgs)e).Location;
+						if(VerificarEditarJogo(local))
+						{
+							Janela.AdicionarJogo(itens[index]);
+							return;
+						}
+					}*/
+				};
+				b_editar.Click += (s,e) =>
+				{
+					Janela.AdicionarJogo(itens[index]);
+				};
+				b_excluir.Click += (s,e) =>
+				{
+					Gerir.RemoverItemJogo(id);
 				};
 			}
 
-			_listados = b.ToArray();
+			painel.Visible = true;
+			_listados = botoes.ToArray();
+			botoes.Clear();
 		}
 
 		public static void LimparPainelListados ()
@@ -97,8 +150,7 @@ namespace Malkima
 			
 			for(int i = 0; i < _listados.Length; i++)
 			{
-				_listados[i].BackgroundImage.Dispose();
-				_listados[i].Dispose();
+				DescartarElemento(_listados[i]);
 			}
 
 			foreach(Button b in Inicio.UsarPainel().Controls.OfType<Button>().ToList())
@@ -109,6 +161,26 @@ namespace Malkima
 			Array.Clear(_listados, 0, _listados.Length);
 
 			_listados = null;
+		}
+
+		public static void DescartarElemento (Control elem)
+		{
+			foreach(Control filho in elem.Controls)
+			{
+				if(filho.BackgroundImage != null)
+				{
+					filho.BackgroundImage.Dispose();
+				}
+				
+				filho.Dispose();
+			}
+
+			if(elem.BackgroundImage != null)
+			{
+				elem.BackgroundImage.Dispose();
+			}
+
+			elem.Dispose();
 		}
 
 		public static void CriarBotaoRedondo (dynamic elemento, int radius = 10)

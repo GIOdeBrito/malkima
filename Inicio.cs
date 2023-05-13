@@ -151,12 +151,7 @@ namespace Malkima
 				_categorias.Controls.SetChildIndex(botao, _categorias.Controls.Count - 1);
 
 				botao.Click += (s,e) =>
-				{
-					if(!_painel.Visible)
-					{
-						_painel.Visible = true;
-					}
-					
+				{	
 					int index = Array.FindIndex(tipos, item => item == botao.Text);
 					GUI.ListarItensPainel(index);
 				};

@@ -11,7 +11,7 @@ namespace Malkima
 
 			f = this;
 
-			Temporizador();
+			//Temporizador();
 		}
 
 		public static Form1 UsarForma()
@@ -34,7 +34,7 @@ namespace Malkima
 			// A cada tick esta funcao sera executada
 			tmr.Tick += (s, e) =>
 			{
-				//Fundo.Chover();
+				Fundo.Chover();
 			};
 
 			tmr.Stop();
@@ -43,10 +43,6 @@ namespace Malkima
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			//Cores.LerCores();
-			//Cores.LerTemas();
-			//Fontes.CarregarFontes();
-
 			Inicio.Inicializar();
 			//Fundo.IniciarChuva();
 		}

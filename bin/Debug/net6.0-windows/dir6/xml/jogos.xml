@@ -1,10 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<G_Jogo xmlns:GIO="Malkima">
-  <JogoItem>
-    <id>Fallout4</id>
-    <nome>Fallout 4</nome>
-    <exec />
-    <inic />
-    <cate>0</cate>
-  </JogoItem>
-</G_Jogo>
+<G_Jogo xmlns:GIO="Malkima" />

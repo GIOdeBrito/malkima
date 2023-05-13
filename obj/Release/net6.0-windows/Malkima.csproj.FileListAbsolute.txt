@@ -1,0 +1,17 @@
+F:\Projetos\C#\Malkima\bin\Release\net6.0-windows\Malkima.exe
+F:\Projetos\C#\Malkima\bin\Release\net6.0-windows\Malkima.deps.json
+F:\Projetos\C#\Malkima\bin\Release\net6.0-windows\Malkima.runtimeconfig.json
+F:\Projetos\C#\Malkima\bin\Release\net6.0-windows\Malkima.dll
+F:\Projetos\C#\Malkima\bin\Release\net6.0-windows\Malkima.pdb
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\Malkima.csproj.AssemblyReference.cache
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\Malkima.Form1.resources
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\Malkima.csproj.GenerateResource.cache
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\Malkima.GeneratedMSBuildEditorConfig.editorconfig
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\Malkima.AssemblyInfoInputs.cache
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\Malkima.AssemblyInfo.cs
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\Malkima.csproj.CoreCompileInputs.cache
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\Malkima.dll
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\refint\Malkima.dll
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\Malkima.pdb
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\Malkima.genruntimeconfig.cache
+F:\Projetos\C#\Malkima\obj\Release\net6.0-windows\ref\Malkima.dll

@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			SuspendLayout();
 			// 
 			// Form1
@@ -36,10 +37,10 @@
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(1200, 700);
 			FormBorderStyle = FormBorderStyle.None;
+			Icon = (Icon)resources.GetObject("$this.Icon");
 			Name = "Form1";
 			StartPosition = FormStartPosition.CenterScreen;
 			Text = "Malkima";
-			//WindowState = FormWindowState.Maximized;
 			Load += Form1_Load;
 			ResumeLayout(false);
 		}

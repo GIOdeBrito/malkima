@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<G_Jogo xmlns:GIO="Malkima">
+  <JogoItem>
+    <id>git-bash</id>
+    <nome>git-bash</nome>
+    <exec>F:\Programas\Portavel\PortableGit\git-bash.exe</exec>
+    <inic />
+    <categoria>2</categoria>
+  </JogoItem>
+  <JogoItem>
+    <id>rpcs3</id>
+    <nome>rpcs3</nome>
+    <exec>F:\Games\Emuladores\PS3\rpcs3-v0.0.27-14790-2de4c03f_win64\rpcs3.exe</exec>
+    <inic />
+    <categoria>1</categoria>
+  </JogoItem>
+  <JogoItem>
+    <id>CivilizationVI</id>
+    <nome>Civilization VI</nome>
+    <exec>F:\SteamLibrary\steamapps\common\Sid Meier's Civilization VI\Base\Binaries\Win64Steam\CivilizationVI.exe</exec>
+    <inic />
+    <categoria>0</categoria>
+  </JogoItem>
+</G_Jogo>

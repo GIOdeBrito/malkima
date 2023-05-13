@@ -126,6 +126,16 @@ namespace Malkima
 			Directory.CreateDirectory(dir);
 		}
 
+		public static void RemoverDiretorio (string dir, bool recur = false)
+		{
+			if(!Directory.Exists(dir))
+			{
+				return;
+			}
+
+			Directory.Delete(dir, recur);
+		}
+
 		public static void RemoverArquivo (string dir)
 		{
 			if(!File.Exists(dir))

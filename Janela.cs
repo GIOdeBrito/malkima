@@ -44,97 +44,6 @@ namespace Malkima
 			janelaAtual.Show();
 		}
 
-		public static void VerJogo (int jogo_index = -1)
-		{
-			if(jogo_index < 0)
-			{
-				return;
-			}
-			
-			JogoItem jogo = Gerir.UsarItemJogo()[jogo_index];
-			CriarJanelaBase(new Vector2(300,200), $"Jogo :: {jogo.nome}");
-			MakeCloseButton();
-
-			var elementos = new List<dynamic>
-			{
-				new PictureBox()
-				{
-					BackgroundImage = Utis.GIOImagem($@"dir6/jogos/{jogo.id}/capa.png"),
-					BackgroundImageLayout = ImageLayout.Center,
-					Location = new Point(0,20),
-					Size = new Size(90,90),
-				},
-				/*new Label()
-				{
-					Text = jogo.nome,
-					Location = new Point(90,10),
-					Size = new Size(600,100),
-					TextAlign = ContentAlignment.MiddleLeft,
-					ForeColor = Color.FromArgb(200,255,255,255),
-					Font = Fontes.AplicarFontes(22),
-				},*/
-				new Button()
-				{
-					Text = "Jogar",
-					Location = new Point(90,40),
-					Size = new Size(140,55),
-					TextAlign = ContentAlignment.MiddleCenter,
-					ForeColor = Color.White,
-					BackColor = Color.FromArgb(200,204,18,18),
-					Font = Fontes.AplicarFontes(16),
-					Cursor = Cursors.Hand,
-				},
-				new Button()
-				{
-					Text = "Editar",
-					Location = new Point(janelaAtual.Width - 120,220),
-					Size = new Size(100,30),
-					TextAlign = ContentAlignment.MiddleCenter,
-					ForeColor = Color.White,
-					BackColor = Color.FromArgb(200,50,50,50),
-					Font = Fontes.AplicarFontes(11),
-					Cursor = Cursors.Hand,
-				},
-				new Button()
-				{
-					Text = "Remover",
-					Location = new Point(20,220),
-					Size = new Size(100,30),
-					TextAlign = ContentAlignment.MiddleCenter,
-					ForeColor = Color.White,
-					BackColor = Color.FromArgb(200,50,50,50),
-					Font = Fontes.AplicarFontes(11),
-					Cursor = Cursors.Hand,
-				},
-			};
-
-			((Button)elementos[1]).Click += (s,e) =>
-			{
-				DestruirJanelaBase();
-				Gerir.IniciarAplicacao(jogo.exec,jogo.inic);				
-			};
-			((Button)elementos[2]).Click += (s,e) =>
-			{
-				DestruirJanelaBase();
-				AdicionarJogo(jogo);
-			};
-			((Button)elementos[3]).Click += (s,e) =>
-			{
-				DestruirJanelaBase();
-				Gerir.RemoverItemJogo(jogo.id);
-			};
-
-			foreach(Button botao in elementos.OfType<Button>())
-			{
-				GUI.CriarBotaoRedondo(botao,6);
-			}
-
-			foreach(var elem in elementos)
-			{
-				janelaAtual.Controls.Add(elem);
-			}
-		}
-
 		public static void AdicionarJogo (JogoItem item = null)
 		{
 			string c = string.Empty;
@@ -149,7 +58,7 @@ namespace Malkima
 				id = item.id;
 				arq_nome = item.nome;
 				parametros = item.inic;
-				categoria = Int16.Parse(item.cate);
+				categoria = Int16.Parse(item.categoria);
 				ico = Utis.GIOImagem($@"dir6/jogos/{item.id}/capa.png");
 			}
 			else
@@ -277,7 +186,7 @@ namespace Malkima
 					nome = arq_nome,
 					exec = c,
 					inic = parametros,
-					cate = ((ComboBox)elementos[4]).SelectedIndex.ToString(),
+					categoria = ((ComboBox)elementos[4]).SelectedIndex.ToString(),
 				};
 
 				if(item is null)
@@ -297,7 +206,7 @@ namespace Malkima
 				}
 
 				DestruirJanelaBase();
-				GUI.AtualizarPainel();
+				GUI.AtualizarPainel(true);
 			};
 
 			((Button)elementos[1]).Click += (s,e) =>

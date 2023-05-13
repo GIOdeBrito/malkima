@@ -14,23 +14,6 @@ namespace Malkima
 		private static JogoItem[] _jogos = null;
 		private static int _categoria_atual = -1;
 
-		public static void NovoItemJogo (JogoItem item)
-		{
-			List<JogoItem> lista = new List<JogoItem>();
-
-			if(!(_jogos is null))
-			{
-				lista = _jogos.ToList();
-			}
-			
-			lista.Add(item);
-			_jogos = lista.ToArray();
-			lista.Clear();
-
-			GravarXMLJogos();
-			GUI.AtualizarPainel();
-		}
-
 		public static void GravarXMLJogos ()
 		{
 			DadosXML.GravarXML(@"dir6/xml/jogos.xml", new XMLJogo()
@@ -52,7 +35,6 @@ namespace Malkima
 		public static void DefinirLista (XMLJogo dados)
 		{
 			_jogos = dados.itens.ToArray();
-
 			GravarXMLJogos();
 		}
 
@@ -64,6 +46,23 @@ namespace Malkima
 			}
 
 			_categoria_atual = num;
+		}
+
+		public static void NovoItemJogo (JogoItem item)
+		{
+			List<JogoItem> lista = new List<JogoItem>();
+
+			if(!(_jogos is null))
+			{
+				lista = _jogos.ToList();
+			}
+			
+			lista.Add(item);
+			_jogos = lista.ToArray();
+			lista.Clear();
+
+			GravarXMLJogos();
+			GUI.AtualizarPainel(true);
 		}
 
 		public static void RemoverItemJogo (string id = "?id?")
@@ -81,15 +80,18 @@ namespace Malkima
 			_jogos = lista.ToArray();
 			lista.Clear();
 
+			Utis.RemoverDiretorio(@$"dir6/jogos/{id}", true);
 			GravarXMLJogos();
-
-			GUI.AtualizarPainel();
+			GUI.AtualizarPainel(true);
 		}
 
 		public static void IniciarAplicacao (string exec, string param = null)
 		{
 			//Console.WriteLine($"{exec} | {param}");
-			if(param != "" && !(param is null))
+
+			Inicio.Minimizar();
+
+			if(param != null && param != "")
 			{
 				ProcessStartInfo startInfo = new ProcessStartInfo()
 				{
@@ -121,5 +123,5 @@ public class JogoItem
 	public string nome { get; set; }
 	public string exec { get; set; }
 	public string inic { get; set; }
-	public string cate { get; set; }
+	public string categoria { get; set; }
 }
