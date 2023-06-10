@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Numerics;
 using System.Data;
+using System.Drawing.Imaging;
 
 namespace Malkima
 {
@@ -59,7 +60,7 @@ namespace Malkima
 				arq_nome = item.nome;
 				parametros = item.inic;
 				categoria = Int16.Parse(item.categoria);
-				ico = Utis.GIOImagem($@"dir6/jogos/{item.id}/capa.png");
+				ico = Utis.GIOImagem(GUI.RetornarCapa(item.id));
 			}
 			else
 			{
@@ -80,6 +81,7 @@ namespace Malkima
 			MakeCloseButton();
 
 			int x = _janelaAtual.Width, y = _janelaAtual.Height;
+			
 			Func<string[],List<string>> criarTabela = (str) =>
 			{
 				List<string> lista = new List<string>();
@@ -161,9 +163,12 @@ namespace Malkima
 			// Define a categoria selecionada na caixa
 			((ComboBox)elementos[4]).SelectedIndex = categoria;
 
+			// Botão de salvar; Guarda a imagem e os dados no disco
 			((Button)elementos[0]).Click += (s,e) =>
 			{
 				string id_atual = id;
+				Button b_capa = (Button)elementos[1];
+				ImageFormat formato = b_capa.BackgroundImage.RawFormat;
 
 				if(string.IsNullOrEmpty(id))
 				{
@@ -173,9 +178,22 @@ namespace Malkima
 				string dir = $@"dir6/jogos/{id_atual}";
 
 				Utis.CriarDiretorio(dir);
-				Utis.RemoverArquivo($"{dir}/capa.png");
+				Utis.RemoverArquivo($"{dir}/capa_nova.png");
 
-				((Button)elementos[1]).BackgroundImage.Save($"{dir}/capa.png");
+				/*
+				Se tentar salvar um formato não png como png uma
+				excessão será lançada. A imagem precisará ser
+				convertida antes
+				*/
+				if(formato != ImageFormat.Png)
+				{	
+					Bitmap bmp = Utis.ConverterParaPng((Bitmap)b_capa.BackgroundImage);
+					bmp = Utis.Redimensionar(bmp, new Vector2(256,512));
+					b_capa.BackgroundImage.Dispose();
+					b_capa.BackgroundImage = bmp;
+				}
+
+				b_capa.BackgroundImage.Save($"{dir}/capa_nova.png", ImageFormat.Png);
 
 				arq_nome = ((TextBox)elementos[2]).Text;
 				parametros = ((TextBox)elementos[3]).Text;
@@ -213,19 +231,22 @@ namespace Malkima
 			((Button)elementos[1]).Click += (s,e) =>
 			{
 				string capa = Utis.ColetarArquivo(1);
-				Button b = ((Button)elementos[1]);
+				Button b_capa = (Button)elementos[1];
 
-				if(string.IsNullOrEmpty(c))
+				Console.WriteLine(capa);
+
+				if(string.IsNullOrEmpty(capa))
 				{
 					return;
 				}
 
-				if(b.BackgroundImage != null)
+				if(b_capa.BackgroundImage != null)
 				{
-					b.BackgroundImage.Dispose();
+					b_capa.BackgroundImage.Dispose();
+					b_capa.BackgroundImage = null;
 				}
 
-				b.BackgroundImage = Utis.GIOImagem(capa);
+				b_capa.BackgroundImage = Utis.GIOImagem(capa);
 			};
 
 			_janelaAtual.FormClosing += (s,e) =>

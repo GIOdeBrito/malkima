@@ -48,8 +48,8 @@ namespace Malkima
 			}
 
 			int x = 30, y = 20;
-			Vector2 tamanho = new Vector2(140, 200);
 			int contador = 0;
+			Vector2 tamanho = new Vector2(140, 200);
 
 			for(int i = 0; i < jogos.Length; i++)
 			{
@@ -66,7 +66,7 @@ namespace Malkima
 				botoes.Add(new Button()
 				{
 					Name = jogos[i].id,
-					BackgroundImage = Utis.GIOImagem(@$"dir6/jogos/{jogos[i].id}/capa.png"),
+					BackgroundImage = Utis.GIOImagem(RetornarCapa(jogos[i].id)),
 					BackgroundImageLayout = ImageLayout.Center,
 					ForeColor = Color.Black,
 					FlatStyle = FlatStyle.Flat,
@@ -120,21 +120,13 @@ namespace Malkima
 					Console.WriteLine(exec);
 
 					Gerir.IniciarAplicacao(exec, param);
-
-					/*if(((MouseEventArgs)e).Button == MouseButtons.Left)
-					{
-						Point local = ((MouseEventArgs)e).Location;
-						if(VerificarEditarJogo(local))
-						{
-							Janela.AdicionarJogo(itens[index]);
-							return;
-						}
-					}*/
 				};
+				
 				b_editar.Click += (s,e) =>
 				{
 					Janela.AdicionarJogo(itens[index]);
 				};
+				
 				b_excluir.Click += (s,e) =>
 				{
 					Gerir.RemoverItemJogo(id);
@@ -213,6 +205,20 @@ namespace Malkima
 				path.AddLine(0, elemento.Height - radius, 0, radius);
 				elemento.Region = new Region(path);
 			}
+		}
+
+		public static string RetornarCapa (string id)
+		{
+			/*
+			Verifica a capa que está disponível e retorna o caminho
+			*/
+			
+			if(File.Exists(@$"dir6/jogos/{id}/capa_nova.png"))
+			{
+				return @$"dir6/jogos/{id}/capa_nova.png";
+			}
+			
+			return @$"dir6/jogos/{id}/capa.png";
 		}
 	}
 }

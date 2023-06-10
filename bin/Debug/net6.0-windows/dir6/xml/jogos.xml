@@ -3,42 +3,7 @@
   <JogoItem>
     <id>DOOM64_x64</id>
     <nome>DOOM64_x64</nome>
-    <exec>F:\SteamLibrary\steamapps\common\Doom 64\DOOM64_x64.exe</exec>
-    <inic />
-    <categoria>0</categoria>
-  </JogoItem>
-  <JogoItem>
-    <id>DOOM64_x64</id>
-    <nome>DOOM64_x64</nome>
-    <exec>F:\SteamLibrary\steamapps\common\Doom 64\DOOM64_x64.exe</exec>
-    <inic />
-    <categoria>0</categoria>
-  </JogoItem>
-  <JogoItem>
-    <id>DOOM64_x64</id>
-    <nome>DOOM64_x64</nome>
-    <exec>F:\SteamLibrary\steamapps\common\Doom 64\DOOM64_x64.exe</exec>
-    <inic />
-    <categoria>0</categoria>
-  </JogoItem>
-  <JogoItem>
-    <id>DOOM64_x64</id>
-    <nome>DOOM64_x64</nome>
-    <exec>F:\SteamLibrary\steamapps\common\Doom 64\DOOM64_x64.exe</exec>
-    <inic />
-    <categoria>0</categoria>
-  </JogoItem>
-  <JogoItem>
-    <id>DOOM64_x64</id>
-    <nome>DOOM64_x64</nome>
-    <exec>F:\SteamLibrary\steamapps\common\Doom 64\DOOM64_x64.exe</exec>
-    <inic />
-    <categoria>0</categoria>
-  </JogoItem>
-  <JogoItem>
-    <id>DOOM64_x64</id>
-    <nome>DOOM64_x64</nome>
-    <exec>F:\SteamLibrary\steamapps\common\Doom 64\DOOM64_x64.exe</exec>
+    <exec />
     <inic />
     <categoria>0</categoria>
   </JogoItem>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -71,6 +72,41 @@ namespace Malkima
 			}
 			
 			return img;
+		}
+
+		public static Bitmap ConverterParaPng (Bitmap bmp)
+		{
+			Bitmap imagem = new Bitmap(bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
+
+			using(Graphics graphics = Graphics.FromImage(imagem))
+			{
+				graphics.DrawImage(bmp, new Rectangle(0,0, bmp.Width,bmp.Height));
+			}
+
+			bmp.Dispose();
+
+			return imagem;
+		}
+
+		public static Bitmap Redimensionar (Bitmap bmp, Vector2 v = default(Vector2))
+		{
+			if(v == default(Vector2))
+			{
+				v.X = 256;
+				v.Y = 256;
+			}
+			
+			Bitmap image = new Bitmap((int)v.X, (int)v.Y, PixelFormat.Format32bppArgb);
+
+			using(Graphics graphics = Graphics.FromImage(image))
+			{
+				graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+				graphics.DrawImage(bmp, new Rectangle(0,0, (int)v.X,(int)v.Y));
+			}
+
+			bmp.Dispose();
+
+			return image;
 		}
 
 		public static string ColetarArquivo (int filtro_tipo = -1)

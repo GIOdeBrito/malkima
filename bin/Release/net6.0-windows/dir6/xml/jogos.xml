@@ -28,4 +28,11 @@
     <inic />
     <categoria>0</categoria>
   </JogoItem>
+  <JogoItem>
+    <id>Fallout4Launcher</id>
+    <nome>Fallout 4</nome>
+    <exec />
+    <inic />
+    <categoria>0</categoria>
+  </JogoItem>
 </G_Jogo>
