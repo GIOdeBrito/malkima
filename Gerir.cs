@@ -89,7 +89,7 @@ namespace Malkima
 		{
 			//Console.WriteLine($"{exec} | {param}");
 
-			Inicio.Minimizar();
+			Form1.Minimizar();
 
 			if(param != null && param != "")
 			{

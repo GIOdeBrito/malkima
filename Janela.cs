@@ -13,7 +13,7 @@ namespace Malkima
 {
 	internal class Janela
 	{
-		private static Form janelaAtual = null;
+		private static Form _janelaAtual = null;
 
 		private static void CriarJanelaBase (Vector2 v = default(Vector2), string nome = "Janela")
 		{
@@ -24,7 +24,7 @@ namespace Malkima
 
 			int x = (int) v.X, y = (int) v.Y;
 			
-			janelaAtual = new Form ()
+			_janelaAtual = new Form ()
 			{
 				Name = nome,
 				Text = nome,
@@ -33,15 +33,15 @@ namespace Malkima
 				StartPosition = FormStartPosition.CenterScreen,
 				BackColor = Color.FromArgb(40,40,40),
 			};
-			janelaAtual.FormClosed += (s,e) =>
+			_janelaAtual.FormClosed += (s,e) =>
 			{
 				DestruirJanelaBase();
 			};
 
 			Form1.UsarForma().Enabled = false;
 
-			janelaAtual.Focus();
-			janelaAtual.Show();
+			_janelaAtual.Focus();
+			_janelaAtual.Show();
 		}
 
 		public static void AdicionarJogo (JogoItem item = null)
@@ -79,7 +79,7 @@ namespace Malkima
 			CriarJanelaBase(v: new Vector2(290,400),nome: "Adicionar jogo");
 			MakeCloseButton();
 
-			int x = janelaAtual.Width, y = janelaAtual.Height;
+			int x = _janelaAtual.Width, y = _janelaAtual.Height;
 			Func<string[],List<string>> criarTabela = (str) =>
 			{
 				List<string> lista = new List<string>();
@@ -100,7 +100,7 @@ namespace Malkima
 					Text = "Salvar",
 					Size = new Size(100,30),
 					Location = new Point(x/2 - 50, y - 40),
-					ForeColor = Color.White,
+					ForeColor = Cor.UsarCor(0),
 					FlatStyle = FlatStyle.Flat,
 					Font = Fontes.AplicarFontes(),
 					Cursor = Cursors.Hand,
@@ -110,7 +110,7 @@ namespace Malkima
 					Name = "capa",
 					Size = new Size(100,120),
 					Location = new Point(x/2 - 50, y/2 - 50),
-					ForeColor = Color.White,
+					ForeColor = Cor.UsarCor(0),
 					BackColor = Color.Transparent,
 					FlatStyle = FlatStyle.Flat,
 					Cursor = Cursors.Hand,
@@ -123,7 +123,7 @@ namespace Malkima
 					Text = arq_nome,
 					Location = new Point(25,45),
 					Size = new Size(x - 50,30),
-					ForeColor = Color.White,
+					ForeColor = Cor.UsarCor(0),
 					BackColor = Color.FromArgb(40,40,40),
 					Font = Fontes.AplicarFontes(),
 					TextAlign = HorizontalAlignment.Center,
@@ -134,7 +134,7 @@ namespace Malkima
 					Text = parametros,
 					Location = new Point(25,y/2 + 90),
 					Size = new Size(x - 50,30),
-					ForeColor = Color.White,
+					ForeColor = Cor.UsarCor(0),
 					BackColor = Color.FromArgb(40,40,40),
 					Font = Fontes.AplicarFontes(),
 					TextAlign = HorizontalAlignment.Left,
@@ -144,10 +144,10 @@ namespace Malkima
 					Name = "categoria",
 					Size = new Size(x - 50,30),
 					Location = new Point(25, 90),
-					DataSource = criarTabela(Inicio.tipos),
+					DataSource = criarTabela(Menu.tipos),
 					FlatStyle = FlatStyle.Flat,
 					DropDownStyle = ComboBoxStyle.DropDownList,
-					ForeColor = Color.White,
+					ForeColor = Cor.UsarCor(0),
 					BackColor = Color.FromArgb(40,40,40),
 					Font = Fontes.AplicarFontes(),
 				},
@@ -155,14 +155,15 @@ namespace Malkima
 
 			foreach(var elemento in elementos)
 			{
-				janelaAtual.Controls.Add(elemento);
+				_janelaAtual.Controls.Add(elemento);
 			}
+
+			// Define a categoria selecionada na caixa
+			((ComboBox)elementos[4]).SelectedIndex = categoria;
 
 			((Button)elementos[0]).Click += (s,e) =>
 			{
 				string id_atual = id;
-
-				Utis.CriarDiretorio(@"dir6/jogos");
 
 				if(string.IsNullOrEmpty(id))
 				{
@@ -227,7 +228,7 @@ namespace Malkima
 				b.BackgroundImage = Utis.GIOImagem(capa);
 			};
 
-			janelaAtual.FormClosing += (s,e) =>
+			_janelaAtual.FormClosing += (s,e) =>
 			{
 				((PictureBox)elementos[4]).BackgroundImage.Dispose();
 				((Button)elementos[1]).BackgroundImage.Dispose();
@@ -242,8 +243,8 @@ namespace Malkima
 				Name = "fechar",
 				BackColor = Color.Transparent,
 				Size = new Size(16,16),
-				Location = new Point(janelaAtual.Width - 20,6),
-				BackgroundImage = Utis.ImagemComCor("dir6/graficos/sair.png",Color.White),
+				Location = new Point(_janelaAtual.Width - 20,6),
+				BackgroundImage = Utis.ImagemComCor("dir6/graficos/sair.png",Cor.UsarCor(0)),
 				Cursor = Cursors.Hand,
 				BackgroundImageLayout = ImageLayout.Stretch,
 			};
@@ -251,22 +252,24 @@ namespace Malkima
 			close.Click += (s,e) => { DestruirJanelaBase(); };
 			close.MouseEnter += (s,e) =>
 			{
-				close.BackColor = Color.Red;
+				close.BackColor = Cor.UsarCor(2);
 			};
 			close.MouseLeave += (s,e) =>
 			{	
 				close.BackColor = Color.Transparent;
 			};
 
-			janelaAtual.Controls.Add(close);
-			close.Parent.Controls.SetChildIndex(close,-1);
+			_janelaAtual.Controls.Add(close);
+			close.Parent.Controls.SetChildIndex(close, 10);
 		}
 
 		private static void DestruirJanelaBase ()
 		{
-			janelaAtual.Dispose();
-			janelaAtual = null;
+			_janelaAtual.Dispose();
+			_janelaAtual = null;
+
 			Form1.UsarForma().Enabled = true;
+			Form1.UsarForma().Focus();
 		}
 	}
 }

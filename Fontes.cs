@@ -23,8 +23,9 @@ namespace Malkima
 
 		public static void CarregarFontes ()
 		{
-			string[] fontes_c = {
-				@"dir6/modern_dos.ttf",
+			string[] fontes_c =
+			{
+				@"fontes/acephimere.otf",
 			};
 
 			foreach(string f in fontes_c)

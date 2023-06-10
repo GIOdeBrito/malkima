@@ -21,7 +21,7 @@ namespace Malkima
 		
 		public static void ListarItensPainel (int categoria = -1, bool forcabruta = false)
 		{
-			Panel painel = Inicio.UsarPainel();
+			Panel painel = Menu.UsarPainel();
 			
 			if(categoria == Gerir.UsarCategoria() && !forcabruta)
 			{
@@ -47,20 +47,20 @@ namespace Malkima
 				return;
 			}
 
-			int x = 20, y = 20;
-			Vector2 tamanho = new Vector2(100, 140);
+			int x = 30, y = 20;
+			Vector2 tamanho = new Vector2(140, 200);
 			int contador = 0;
 
 			for(int i = 0; i < jogos.Length; i++)
 			{
 				if(contador > 0)
 				{
-					x += 20 + (int)tamanho.X;
+					x += 47 + (int)tamanho.X;
 				}
-				if(contador > 6)
+				if(contador > 4)
 				{
-					x = 20;
-					y += 20 + (int)tamanho.Y;
+					x = 30;
+					y += 30 + (int)tamanho.Y;
 				}
 				
 				botoes.Add(new Button()
@@ -76,32 +76,37 @@ namespace Malkima
 					Enabled = true,
 				});
 
-				painel.Controls.Add(botoes[i]);
-
-				contador++;
-
 				Button b_jogo = botoes[i];
+
+				// Para imagens maiores que 32x32
+				if(b_jogo.BackgroundImage.Width > 32 && b_jogo.BackgroundImage.Height > 32)
+				{
+					b_jogo.BackgroundImageLayout = ImageLayout.Stretch;
+				}
+
 				Panel b_editar = new Panel()
 				{
 					Name = "editar",
-					Location = new Point((int)tamanho.X-16,1),
-					Size = new Size(15,15),
+					Location = new Point((int)tamanho.X-17,1),
+					Size = new Size(16,16),
 					//BackColor = Color.Transparent,
-					BackgroundImage = Utis.ImagemComCor(@"dir6/graficos/editar.png", Color.White),
+					BackgroundImage = Utis.ImagemComCor(@"dir6/graficos/editar_16.png", Cor.UsarCor(0)),
 					BackgroundImageLayout = ImageLayout.Stretch,
 				};
 				Panel b_excluir = new Panel()
 				{
 					Name = "deletar",
-					Location = new Point((int)tamanho.X-16,20),
-					Size = new Size(15,15),
+					Location = new Point((int)tamanho.X-17,20),
+					Size = new Size(16,16),
 					//BackColor = Color.Transparent,
-					BackgroundImage = Utis.ImagemComCor(@"dir6/graficos/deletar.png", Color.Red),
+					BackgroundImage = Utis.ImagemComCor(@"dir6/graficos/deletar_16.png", Cor.UsarCor(2)),
 					BackgroundImageLayout = ImageLayout.Stretch,
 				};
 
+				painel.Controls.Add(b_jogo);
 				b_jogo.Controls.Add(b_editar);
 				b_jogo.Controls.Add(b_excluir);
+				contador++;
 
 				string nome = b_jogo.Name;
 				string exec = jogos[i].exec;
@@ -138,6 +143,7 @@ namespace Malkima
 
 			painel.Visible = true;
 			_listados = botoes.ToArray();
+			
 			botoes.Clear();
 		}
 
@@ -153,9 +159,9 @@ namespace Malkima
 				DescartarElemento(_listados[i]);
 			}
 
-			foreach(Button b in Inicio.UsarPainel().Controls.OfType<Button>().ToList())
+			foreach(Button b in Menu.UsarPainel().Controls.OfType<Button>().ToList())
 			{
-				Inicio.UsarPainel().Controls.Remove(b);
+				Menu.UsarPainel().Controls.Remove(b);
 			}
 
 			Array.Clear(_listados, 0, _listados.Length);
@@ -165,14 +171,14 @@ namespace Malkima
 
 		public static void DescartarElemento (Control elem)
 		{
-			foreach(Control filho in elem.Controls)
+			foreach(Control child in elem.Controls)
 			{
-				if(filho.BackgroundImage != null)
+				if(child.BackgroundImage != null)
 				{
-					filho.BackgroundImage.Dispose();
+					child.BackgroundImage.Dispose();
 				}
 				
-				filho.Dispose();
+				child.Dispose();
 			}
 
 			if(elem.BackgroundImage != null)
@@ -189,8 +195,8 @@ namespace Malkima
 			{
 				elemento.FlatStyle = FlatStyle.Flat;
 				elemento.FlatAppearance.BorderSize = 0;
-				elemento.ForeColor = Color.White;
-				//elemento.BackColor = Color.White;
+				elemento.ForeColor = Cor.UsarCor(0);
+				//elemento.BackColor = Cor.UsarCor(0);
 				//elemento.FlatAppearance.MouseDownBackColor = Color.Gray;
 				//elemento.FlatAppearance.MouseOverBackColor = Color.LightGray;
 			}

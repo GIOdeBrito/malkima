@@ -41,9 +41,19 @@ namespace Malkima
 			tmr.Start();
 		}
 
+		public static void Minimizar ()
+		{
+			Form1.UsarForma().WindowState = FormWindowState.Minimized;
+		}
+
+		public static void Fechar ()
+		{
+			System.Windows.Forms.Application.Exit();
+		}
+
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			Inicio.Inicializar();
+			Menu.CriarMenu();
 			//Fundo.IniciarChuva();
 		}
 	}

@@ -21,4 +21,11 @@
     <inic />
     <categoria>0</categoria>
   </JogoItem>
+  <JogoItem>
+    <id>ModOrganizer</id>
+    <nome>ModOrganizer</nome>
+    <exec>F:\SteamLibrary\steamapps\common\Skyrim\Mod\Mod.Organizer-2.4.4\ModOrganizer.exe</exec>
+    <inic />
+    <categoria>0</categoria>
+  </JogoItem>
 </G_Jogo>

@@ -37,7 +37,7 @@ namespace Malkima
 			{
 				ColorMap[] colorMap = new ColorMap[1];
 				colorMap[0] = new ColorMap();
-				colorMap[0].OldColor = Color.White;
+				colorMap[0].OldColor = Cor.UsarCor(0);
 				colorMap[0].NewColor = cor;
 				
 				ImageAttributes attr = new ImageAttributes();
