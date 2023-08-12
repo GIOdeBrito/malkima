@@ -22,16 +22,9 @@
     <categoria>0</categoria>
   </JogoItem>
   <JogoItem>
-    <id>ModOrganizer</id>
-    <nome>ModOrganizer</nome>
-    <exec>F:\SteamLibrary\steamapps\common\Skyrim\Mod\Mod.Organizer-2.4.4\ModOrganizer.exe</exec>
-    <inic />
-    <categoria>0</categoria>
-  </JogoItem>
-  <JogoItem>
     <id>Fallout4Launcher</id>
-    <nome>Fallout 4</nome>
-    <exec />
+    <nome>Fallout4Launcher</nome>
+    <exec>F:\SteamLibrary\steamapps\common\Fallout 4\Fallout4Launcher.exe</exec>
     <inic />
     <categoria>0</categoria>
   </JogoItem>

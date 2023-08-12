@@ -18,6 +18,11 @@ namespace Malkima
 			Utis.CriarDiretorio(@"dir6/jogos");
 		}
 
+		public static void Initialize ()
+		{
+			Menu.CriarMenu();
+		}
+
 		public static void CarregarJogos ()
 		{
 			XMLJogo dados = (XMLJogo) DadosXML.LerXML(@"dir6/xml/jogos.xml",typeof(XMLJogo));

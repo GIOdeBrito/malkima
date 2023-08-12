@@ -119,7 +119,7 @@ namespace Malkima
 					Console.WriteLine(param);
 					Console.WriteLine(exec);
 
-					Gerir.IniciarAplicacao(exec, param);
+					Processo.IniciarAplicacao(exec, param);
 				};
 				
 				b_editar.Click += (s,e) =>

@@ -84,29 +84,6 @@ namespace Malkima
 			GravarXMLJogos();
 			GUI.AtualizarPainel(true);
 		}
-
-		public static void IniciarAplicacao (string exec, string param = null)
-		{
-			//Console.WriteLine($"{exec} | {param}");
-
-			Form1.Minimizar();
-
-			if(param != null && param != "")
-			{
-				ProcessStartInfo startInfo = new ProcessStartInfo()
-				{
-					FileName = "cmd.exe",
-					Arguments = @"/c " + param,
-				};
-				Process p = new Process() { StartInfo = startInfo, };
-				
-				p.Start();
-				
-				return;
-			}
-
-			Process.Start(exec);
-		}
 	}
 }
 

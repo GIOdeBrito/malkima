@@ -47,7 +47,7 @@ namespace Malkima
 
 		public static void AdicionarJogo (JogoItem item = null)
 		{
-			string c = string.Empty;
+			string exec = string.Empty;
 			string id = string.Empty;
 			string arq_nome = string.Empty;
 			string parametros = string.Empty;
@@ -59,20 +59,21 @@ namespace Malkima
 				id = item.id;
 				arq_nome = item.nome;
 				parametros = item.inic;
+				exec = item.exec;
 				categoria = Int16.Parse(item.categoria);
 				ico = Utis.GIOImagem(GUI.RetornarCapa(item.id));
 			}
 			else
 			{
-				c = Utis.ColetarArquivo();
+				exec = Utis.ColetarArquivo();
 
-				if(string.IsNullOrEmpty(c))
+				if(string.IsNullOrEmpty(exec))
 				{
 					return;
 				}
 
-				arq_nome = Path.GetFileNameWithoutExtension(c);
-				Icon icono = Icon.ExtractAssociatedIcon(c);
+				arq_nome = Path.GetFileNameWithoutExtension(exec);
+				Icon icono = Icon.ExtractAssociatedIcon(exec);
 				ico = icono.ToBitmap();
 				icono.Dispose();
 			}
@@ -203,7 +204,7 @@ namespace Malkima
 				{
 					id = id_atual,
 					nome = arq_nome,
-					exec = c,
+					exec = exec,
 					inic = parametros,
 					categoria = ((ComboBox)elementos[4]).SelectedIndex.ToString(),
 				};
@@ -232,8 +233,6 @@ namespace Malkima
 			{
 				string capa = Utis.ColetarArquivo(1);
 				Button b_capa = (Button)elementos[1];
-
-				Console.WriteLine(capa);
 
 				if(string.IsNullOrEmpty(capa))
 				{

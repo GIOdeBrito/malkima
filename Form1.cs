@@ -3,7 +3,7 @@ namespace Malkima
 	public partial class Form1 : Form
 	{
 		private static Form1 f;
-		private static System.Windows.Forms.Timer tmr;
+		//private static System.Windows.Forms.Timer tmr;
 
 		public Form1()
 		{
@@ -16,7 +16,7 @@ namespace Malkima
 
 		public static Form1 UsarForma()
 		{
-			if (f == null)
+			if(f == null)
 			{
 				throw new Exception("Form1 não existe");
 			}
@@ -24,7 +24,7 @@ namespace Malkima
 			return f;
 		}
 
-		private void Temporizador()
+		/*private void Temporizador()
 		{
 			tmr = new System.Windows.Forms.Timer();
 
@@ -39,11 +39,16 @@ namespace Malkima
 
 			tmr.Stop();
 			tmr.Start();
-		}
+		}*/
 
 		public static void Minimizar ()
 		{
-			Form1.UsarForma().WindowState = FormWindowState.Minimized;
+			UsarForma().WindowState = FormWindowState.Minimized;
+		}
+
+		public static void Revelar ()
+		{
+			UsarForma().WindowState = FormWindowState.Normal;
 		}
 
 		public static void Fechar ()
@@ -53,8 +58,7 @@ namespace Malkima
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			Menu.CriarMenu();
-			//Fundo.IniciarChuva();
+			Inicio.Initialize();
 		}
 	}
 }
