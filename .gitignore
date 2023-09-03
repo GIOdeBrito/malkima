@@ -1,0 +1,3 @@
+# Ignore these folders which are not important for the source
+bin/Debug/
+obj/

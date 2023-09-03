@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Malkima
 {
 	internal class Utis
 	{	
-		public static Tuple<int,int> TelaXY ()
+		public static Tuple<int,int> ScreenSize ()
 		{
 			int x = Form1.UsarForma().Width;
 			int y = Form1.UsarForma().Height;
@@ -25,21 +22,21 @@ namespace Malkima
 			return num;
 		}
 
-		public static Image ImagemComCor (string c, Color cor)
+		public static Image ColouredImage (string path, Color colour)
 		{
-			if(!File.Exists(c))
+			if(!File.Exists(path))
 			{
-				throw new FileNotFoundException($"Arquivo {c} não pôde ser encontrado");
+				throw new FileNotFoundException($"Arquivo {path} não pôde ser encontrado");
 			}
 
-			Bitmap bmp = new Bitmap(GIOImagem(c));
+			Bitmap bmp = new Bitmap(LoadImage(path));
 
 			using(Graphics g = Graphics.FromImage(bmp))
 			{
 				ColorMap[] colorMap = new ColorMap[1];
 				colorMap[0] = new ColorMap();
 				colorMap[0].OldColor = Cor.UsarCor(0);
-				colorMap[0].NewColor = cor;
+				colorMap[0].NewColor = colour;
 				
 				ImageAttributes attr = new ImageAttributes();
 				attr.SetRemapTable(colorMap);
@@ -54,21 +51,18 @@ namespace Malkima
 			return neoBmp;
 		}
 
-		public static Bitmap GIOImagem (string c)
+		public static Bitmap LoadImage (string path)
 		{
-			if(!File.Exists(c))
+			if(!File.Exists(path))
 			{
-				throw new FileNotFoundException($"Arquivo {c} não pôde ser encontrado");
+				throw new FileNotFoundException($"Arquivo {path} não pôde ser encontrado");
 			}
 
 			Bitmap img = null;
 
-			using(FileStream stream = new FileStream(c, FileMode.Open))
+			using(FileStream stream = new FileStream(path, FileMode.Open))
 			{
-				Bitmap bmp = new Bitmap(stream);
 				img = (Bitmap) Image.FromStream(stream);
-
-				bmp.Dispose();
 			}
 			
 			return img;
@@ -76,16 +70,16 @@ namespace Malkima
 
 		public static Bitmap ConverterParaPng (Bitmap bmp)
 		{
-			Bitmap imagem = new Bitmap(bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
+			Bitmap img = new Bitmap(bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
 
-			using(Graphics graphics = Graphics.FromImage(imagem))
+			using(Graphics graphics = Graphics.FromImage(img))
 			{
 				graphics.DrawImage(bmp, new Rectangle(0,0, bmp.Width,bmp.Height));
 			}
 
 			bmp.Dispose();
 
-			return imagem;
+			return img;
 		}
 
 		public static Bitmap Redimensionar (Bitmap bmp, Vector2 v = default(Vector2))
@@ -109,35 +103,34 @@ namespace Malkima
 			return image;
 		}
 
-		public static string ColetarArquivo (int filtro_tipo = -1)
+		public static string ColetarArquivo (int filter_type = -1)
 		{
-			string c = string.Empty;
-
-			Func<int,string> definir_filtro = (tipo) =>
+			Func<int,string> defineFilter = (type) =>
 			{
-				string filtro = string.Empty;
+				string filter = string.Empty;
 				
-				switch(tipo)
+				switch(type)
 				{
-					case 1: { filtro = "Capa (*.jpg);(*.png)|*.jpg;*.png"; } break;
-					default: { filtro = "Aplicação (*.exe)|*.exe"; } break;
+					case 1: { filter = "Capa (*.jpg);(*.png)|*.jpg;*.png"; } break;
+					default: { filter = "Aplicação (*.exe)|*.exe"; } break;
 				}
 				
-				return $"{filtro}|Todos (*.*)|*.*";
+				return $"{filter}|Todos (*.*)|*.*";
 			};
 
-			string filtro = definir_filtro(filtro_tipo);
+			string filtro = defineFilter(filter_type);
+			string path = string.Empty;
 			
-			using(OpenFileDialog explorador = new OpenFileDialog()
+			using(OpenFileDialog explorer = new OpenFileDialog()
 			{
-				InitialDirectory = @"C:\",
+				//InitialDirectory = @"C:\",
 				RestoreDirectory = true,
 				Title = "Adicionar arquivo",
 				//DefaultExt = "exe",
 				Filter = filtro,
 			})
 			{
-				DialogResult res = explorador.ShowDialog();
+				DialogResult res = explorer.ShowDialog();
 
 				if(res == DialogResult.Cancel)
 				{
@@ -145,11 +138,10 @@ namespace Malkima
 					return null;
 				}
 
-				c = explorador.FileName;
-				explorador.Dispose();
+				path = explorer.FileName;
 			}
 
-			return c;
+			return path;
 		}
 
 		public static void CriarDiretorio (string dir)
@@ -180,6 +172,21 @@ namespace Malkima
 			}
 
 			File.Delete(dir);
+		}
+
+		public static Control GetElement (string name)
+		{
+			Form1 f = Form1.UsarForma();
+			
+			Control elem = null;
+			elem = f.Controls.Find(name,true).FirstOrDefault();
+
+			if(elem is null)
+			{
+				throw new Exception("Elemento não encontrado no Form");
+			}
+
+			return elem;
 		}
 	}
 }

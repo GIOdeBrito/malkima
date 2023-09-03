@@ -13,7 +13,7 @@ namespace Malkima
 
 		static Fontes ()
 		{
-			CarregarFontes();
+			LoadFonts();
 		}
 
 		public static Font AplicarFontes (int tam = 11)
@@ -21,14 +21,14 @@ namespace Malkima
 			return new Font(fontes.Families[0], tam);
 		}
 
-		public static void CarregarFontes ()
+		public static void LoadFonts ()
 		{
-			string[] fontes_c =
+			string[] fontspath =
 			{
 				@"fontes/acephimere.otf",
 			};
 
-			foreach(string f in fontes_c)
+			foreach(string f in fontspath)
 			{
 				fontes.AddFontFile(f);
 			}

@@ -28,4 +28,11 @@
     <inic />
     <categoria>0</categoria>
   </JogoItem>
+  <JogoItem>
+    <id>codeblocks</id>
+    <nome>codeblocks</nome>
+    <exec>F:\Programas\Portavel\codeblocks-20.03mingw-nosetup\codeblocks.exe</exec>
+    <inic />
+    <categoria>2</categoria>
+  </JogoItem>
 </G_Jogo>

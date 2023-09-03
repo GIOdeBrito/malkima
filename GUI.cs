@@ -13,17 +13,17 @@ namespace Malkima
 	{
 		private static Button[] _listados = null;
 
-		public static void AtualizarPainel (bool forcabruta = false)
+		public static void AtualizarPainel (bool bruteforce = false)
 		{
 			LimparPainelListados();
-			ListarItensPainel(Gerir.UsarCategoria(), forcabruta);
+			ListarItensPainel(Gerir.UsarCategoria(), bruteforce);
 		}
 		
-		public static void ListarItensPainel (int categoria = -1, bool forcabruta = false)
+		public static void ListarItensPainel (int categoria = -1, bool bruteforce = false)
 		{
 			Panel painel = Menu.UsarPainel();
 			
-			if(categoria == Gerir.UsarCategoria() && !forcabruta)
+			if(categoria == Gerir.UsarCategoria() && !bruteforce)
 			{
 				painel.Visible = !painel.Visible;
 				return;
@@ -66,7 +66,7 @@ namespace Malkima
 				botoes.Add(new Button()
 				{
 					Name = jogos[i].id,
-					BackgroundImage = Utis.GIOImagem(RetornarCapa(jogos[i].id)),
+					BackgroundImage = Utis.LoadImage(RetornarCapa(jogos[i].id)),
 					BackgroundImageLayout = ImageLayout.Center,
 					ForeColor = Color.Black,
 					FlatStyle = FlatStyle.Flat,
@@ -90,7 +90,7 @@ namespace Malkima
 					Location = new Point((int)tamanho.X-17,1),
 					Size = new Size(16,16),
 					//BackColor = Color.Transparent,
-					BackgroundImage = Utis.ImagemComCor(@"dir6/graficos/editar_16.png", Cor.UsarCor(0)),
+					BackgroundImage = Utis.ColouredImage(@"dir6/graficos/editar_16.png", Cor.UsarCor(0)),
 					BackgroundImageLayout = ImageLayout.Stretch,
 				};
 				Panel b_excluir = new Panel()
@@ -99,7 +99,7 @@ namespace Malkima
 					Location = new Point((int)tamanho.X-17,20),
 					Size = new Size(16,16),
 					//BackColor = Color.Transparent,
-					BackgroundImage = Utis.ImagemComCor(@"dir6/graficos/deletar_16.png", Cor.UsarCor(2)),
+					BackgroundImage = Utis.ColouredImage(@"dir6/graficos/deletar_16.png", Cor.UsarCor(2)),
 					BackgroundImageLayout = ImageLayout.Stretch,
 				};
 
@@ -168,6 +168,13 @@ namespace Malkima
 				if(child.BackgroundImage != null)
 				{
 					child.BackgroundImage.Dispose();
+					child.BackgroundImage = null;
+				}
+
+				if(child.Font != null)
+				{
+					child.Font.Dispose();
+					child.Font = null;
 				}
 				
 				child.Dispose();
@@ -176,6 +183,7 @@ namespace Malkima
 			if(elem.BackgroundImage != null)
 			{
 				elem.BackgroundImage.Dispose();
+				elem.BackgroundImage = null;
 			}
 
 			elem.Dispose();
@@ -209,16 +217,17 @@ namespace Malkima
 
 		public static string RetornarCapa (string id)
 		{
-			/*
-			Verifica a capa que está disponível e retorna o caminho
-			*/
+			/* Verifica a capa que está disponível
+			e retorna seu caminho */
+
+			string base_dir = @$"dir6/jogos/{id}";
 			
-			if(File.Exists(@$"dir6/jogos/{id}/capa_nova.png"))
+			if(File.Exists(base_dir + "/capa_nova.png"))
 			{
-				return @$"dir6/jogos/{id}/capa_nova.png";
+				return base_dir + "/capa_nova.png";
 			}
 			
-			return @$"dir6/jogos/{id}/capa.png";
+			return base_dir + "/capa.png";
 		}
 	}
 }

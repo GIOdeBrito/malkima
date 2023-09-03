@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Malkima
@@ -102,3 +96,16 @@ public class JogoItem
 	public string inic { get; set; }
 	public string categoria { get; set; }
 }
+
+[XmlRoot("G_Version")]
+public class XMLVersion
+{
+	[XmlElement("ProgramName")]
+	public string name;
+	[XmlElement("Version")]
+	public string version;
+	[XmlElement("Date")]
+	public string date;
+}
+
+
