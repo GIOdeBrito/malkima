@@ -44,6 +44,37 @@ namespace Malkima
 			description.Font = Fontes.AplicarFontes(10);
 		}
 
+		public static void WindowKillGame (string id)
+		{
+			int x = 320;
+			int y = 130;
+			
+			GWindow win = new GWindow(new Vector2(x,y), "Remover jogo");
+			win.HideClose();
+
+			JogoItem item = Gerir.GetGameItem(id);
+
+			string msg = $"Deseja remover o item: {item.nome}?";
+			Label alert = win.CreateLabel(msg,new Point(x/2 - 260/2,y/2 - 50),new Size(260,50));
+			Button yes = win.CreateButton("Sim",new Point((x/2 - 70/2) - 50,y - 40),new Size(70,30));
+			Button no = win.CreateButton("Não",new Point((x/2 - 70/2) + 50,y - 40),new Size(70,30));
+
+			alert.Font.Dispose();
+			alert.Font = Fontes.AplicarFontes(14);
+			yes.BackColor = Cor.UsarCor(4);
+
+			yes.Click += (s, e) =>
+			{
+				Gerir.RemoverItemJogo(id);
+				win.DestroyWindow();
+			};
+
+			no.Click += (s, e) =>
+			{
+				win.DestroyWindow();
+			};
+		}
+
 		public static void AdicionarJogo (JogoItem item = null)
 		{
 			string exec = string.Empty;
@@ -77,7 +108,7 @@ namespace Malkima
 				icono.Dispose();
 			}
 
-			GWindow win = new GWindow(new Vector2(290,380), "Adicioanr jogo");
+			GWindow win = new GWindow(new Vector2(290,380), "Adicionar jogo");
 
 			int x = (int) win.GetVector().X;
 			int y = (int) win.GetVector().Y;
@@ -94,7 +125,7 @@ namespace Malkima
 				return lista;
 			};
 
-			/* Creating window elements */
+			/* Criar elementos da janela */
 
 			Button b_save = null;
 			b_save = win.CreateButton("Salvar", new Point(x/2 - 50, y - 40), new Size(100,30));
@@ -122,7 +153,6 @@ namespace Malkima
 			b_save.Click += (s,e) =>
 			{
 				string id_atual = id;
-				ImageFormat formato = cover.BackgroundImage.RawFormat;
 
 				if(string.IsNullOrEmpty(id))
 				{
@@ -133,6 +163,8 @@ namespace Malkima
 
 				Utis.CriarDiretorio(dir);
 				Utis.RemoverArquivo($"{dir}/capa_nova.png");
+
+				ImageFormat formato = cover.BackgroundImage.RawFormat;
 
 				/*
 				Se tentar salvar um formato não png como png uma
@@ -203,6 +235,7 @@ namespace Malkima
 	{
         private Form _window;
 		private Vector2 _vector;
+		private PictureBox close;
 		
 		public GWindow (Vector2 v = default(Vector2), string name = "Window")
         {
@@ -223,8 +256,7 @@ namespace Malkima
 
 		public override string ToString()
 		{
-			string s = "GIO";
-			return s;
+			return $"{_window.Text}, X = {_window.Width} Y = {_window.Height}";
 		}
 
 		public Vector2 GetVector ()
@@ -247,7 +279,7 @@ namespace Malkima
 
 		public void AddCloseButton ()
 		{
-			PictureBox close = new PictureBox ()
+			close = new PictureBox ()
 			{
 				Name = "b_fechar",
 				BackColor = Color.Transparent,
@@ -264,6 +296,11 @@ namespace Malkima
 
 			_window.Controls.Add(close);
 			close.Parent.Controls.SetChildIndex(close, 10);
+		}
+
+		public void HideClose ()
+		{
+			close.Hide();
 		}
 
 		/* Create Elements */
@@ -382,6 +419,8 @@ namespace Malkima
 		private void ClearWindow ()
 		{
 			GUI.DescartarElemento(_window);
+			close.Dispose();
+			close = null;
 		}
 	}
 }

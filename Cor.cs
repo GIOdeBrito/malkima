@@ -18,6 +18,8 @@ namespace Malkima
 				Color.FromArgb(235,128,40),
 				Color.FromArgb(230,18,18),
 				Color.FromArgb(200,30,30,30),
+				// Vermelho perigo
+				Color.FromArgb(122,0,18),
 			};
 		}
 

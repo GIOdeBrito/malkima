@@ -129,7 +129,7 @@ namespace Malkima
 				
 				b_excluir.Click += (s,e) =>
 				{
-					Gerir.RemoverItemJogo(id);
+					Janela.WindowKillGame(id);
 				};
 			}
 
@@ -171,8 +171,9 @@ namespace Malkima
 					child.BackgroundImage = null;
 				}
 
-				if(child.Font != null)
+				if(child.Font != null && Fontes.PanFonts().Contains(child.Font.Name))
 				{
+					//Console.WriteLine($"Disposed: {child.Font.Name} Size: {child.Font.Size}");
 					child.Font.Dispose();
 					child.Font = null;
 				}

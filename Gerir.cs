@@ -16,6 +16,11 @@ namespace Malkima
 			});
 		}
 
+		public static JogoItem GetGameItem (string id = "id?")
+		{
+			return Array.Find(_jogos, item => item.id == id) ?? null;
+		}
+
 		public static JogoItem[] UsarItemJogo ()
 		{
 			return _jogos;

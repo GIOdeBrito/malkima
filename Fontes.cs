@@ -16,22 +16,35 @@ namespace Malkima
 			LoadFonts();
 		}
 
-		public static Font AplicarFontes (int tam = 11)
+		public static Font AplicarFontes (int sz = 11)
 		{
-			return new Font(fontes.Families[0], tam);
+			return new Font(fontes.Families[0], sz);
 		}
 
 		public static void LoadFonts ()
 		{
 			string[] fontspath =
 			{
-				@"fontes/acephimere.otf",
+				@"fontes/acephimere.otf"
 			};
 
 			foreach(string f in fontspath)
 			{
 				fontes.AddFontFile(f);
 			}
+		}
+
+		public static string[] PanFonts ()
+		{
+			List<string> names = new List<string>();
+			
+			foreach(FontFamily f in fontes.Families)
+			{
+				//Console.WriteLine(f.Name);
+				names.Add(f.Name);
+			}
+
+			return names.ToArray();
 		}
 	}
 }

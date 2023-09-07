@@ -15,13 +15,6 @@
     <categoria>1</categoria>
   </JogoItem>
   <JogoItem>
-    <id>CivilizationVI</id>
-    <nome>Civilization VI</nome>
-    <exec>F:\SteamLibrary\steamapps\common\Sid Meier's Civilization VI\Base\Binaries\Win64Steam\CivilizationVI.exe</exec>
-    <inic />
-    <categoria>0</categoria>
-  </JogoItem>
-  <JogoItem>
     <id>Fallout4Launcher</id>
     <nome>Fallout4Launcher</nome>
     <exec>F:\SteamLibrary\steamapps\common\Fallout 4\Fallout4Launcher.exe</exec>
